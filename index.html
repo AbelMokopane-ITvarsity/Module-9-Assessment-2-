@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+.<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -12,63 +12,74 @@
     <div id="output"></div>
 
     <script>
-        var timer = setInterval(displayWorldTime, 1000);
+        document.addEventListener("DOMContentLoaded", () => {
+            const cities = [
+                { name: "Istanbul", tz: "Europe/Istanbul", flag: "Turkey.png" },
+                { name: "New York City", tz: "America/New_York", flag: "United-States-Of-America.png" },
+                { name: "Tokyo", tz: "Asia/Tokyo", flag: "Japan.png" },
+                { name: "Moscow", tz: "Europe/Moscow", flag: "Russia.png" },
+                { name: "Rio De Janeiro", tz: "America/Sao_Paulo", flag: "Brazil.png" },
+                { name: "Sydney", tz: "Australia/Sydney", flag: "Australia.png" },
+                { name: "Vancouver", tz: "America/Vancouver", flag: "Canada.png" },
+                { name: "Beijing", tz: "Asia/Shanghai", flag: "China.png" },
+                { name: "London", tz: "Europe/London", flag: "United-Kingdom.png" },
+                { name: "Paris", tz: "Europe/Paris", flag: "France.png" },
+                { name: "Berlin", tz: "Europe/Berlin", flag: "Germany.png" },
+                { name: "Cairo", tz: "Africa/Cairo", flag: "Egypt.png" },
+                { name: "Dubai", tz: "Asia/Dubai", flag: "United-Arab-Emirates.png" },
+            ];
 
-        var cities = [
-            { name: "Istanbul", tz: "Europe/Istanbul", flag: "Turkey.png" },
-            { name: "New York City", tz: "America/New_York", flag: "United-States-Of-America.png" },
-            { name: "Tokyo", tz: "Asia/Tokyo", flag: "Japan.png" },
-            { name: "Moscow", tz: "Europe/Moscow", flag: "Russia.png" },
-            { name: "Rio De Janeiro", tz: "America/Sao_Paulo", flag: "Brazil.png" },
-            { name: "Sydney", tz: "Australia/Sydney", flag: "Australia.png" },
-            { name: "Vancouver", tz: "America/Vancouver", flag: "Canada.png" },
-            { name: "Beijing", tz: "Asia/Shanghai", flag: "China.png" },
+            cities.sort((a, b) => a.name.localeCompare(b.name));
 
-            { name: "London", tz: "Europe/London", flag: "United-Kingdom.png" },
-            { name: "Paris", tz: "Europe/Paris", flag: "France.png" },
-            { name: "Berlin", tz: "Europe/Berlin", flag: "Germany.png" },
-            { name: "Cairo", tz: "Africa/Cairo", flag: "Egypt.png" },
-            { name: "Dubai", tz: "Asia/Dubai", flag: "United-Arab-Emirates.png" },
-        ];
-
-        cities.sort((a, b) => a.name.localeCompare(b.name));
-
-        function getCurrentTime(tz) {
-            return new Intl.DateTimeFormat("en-GB", {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                hour12: false,
-                timeZone: tz,
-            }).format(new Date());
-        }
-
-        function displayWorldTime() {
-            var localTime = new Date().toLocaleTimeString();
-            document.getElementById("local").textContent = "Local time: " + localTime;
-
-            var output = `<table id="cities">`;
-            output += `
-                <thead>
-                    <tr>
-                        <th class="col1"></th>
-                        <th class="col2">City</th>
-                        <th>Current Time</th>
-                    </tr>
-                </thead>
-                <tbody>`;
-
-            for (let a = 0; a < cities.length; a++) {
-                output += `
-                    <tr>
-                        <td><img src="img/${cities[a].flag}" alt="${cities[a].name} flag" /></td>
-                        <td>${cities[a].name}</td>
-                        <td>${getCurrentTime(cities[a].tz)}</td>
-                    </tr>`;
+            function getCurrentTime(tz) {
+                return new Intl.DateTimeFormat("en-GB", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: false,
+                    timeZone: tz,
+                }).format(new Date());
             }
-            output += `</tbody></table>`;
-            document.getElementById("output").innerHTML = output;
-        }
+
+            function displayWorldTime() {
+                const localTime = new Intl.DateTimeFormat("en-GB", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: false
+                }).format(new Date());
+
+                document.getElementById("local").textContent = "Local time: " + localTime;
+
+                let output = `
+                    <table id="cities">
+                        <thead>
+                            <tr>
+                                <th class="col1"></th>
+                                <th class="col2">City</th>
+                                <th>Current Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                for (const city of cities) {
+                    output += `
+                        <tr>
+                            <td><img src="img/${city.flag}" alt="${city.name} flag" /></td>
+                            <td>${city.name}</td>
+                            <td>${getCurrentTime(city.tz)}</td>
+                        </tr>
+                    `;
+                }
+
+                output += `</tbody></table>`;
+                document.getElementById("output").innerHTML = output;
+            }
+
+            displayWorldTime();
+            setInterval(displayWorldTime, 1000);
+        });
     </script>
 </body>
 </html>
